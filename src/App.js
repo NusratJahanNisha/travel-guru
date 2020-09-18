@@ -20,7 +20,7 @@ function App() {
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
     <div className="container" >
-      {/* <h1 style={{textAlign:"center",color:"white"}}>Welcome{loggedInUser.name}</h1> */}
+      
       
       <Router>
       
@@ -35,7 +35,7 @@ function App() {
             <Login></Login>
           </Route>
 
-          <PrivateRoute path="/book/:placeName">
+          <PrivateRoute path="/rooms">
             <Rooms></Rooms>
           </PrivateRoute>
 

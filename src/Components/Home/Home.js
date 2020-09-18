@@ -22,7 +22,7 @@ const Home = () => {
     return (
         <div className="background">
             <Header></Header>
-            <div className="row">
+            <div className="row" style={{padding:'10px'}}>
                 <div className="col-md-5">
                     <Carousel >
                         <Carousel.Item interval={1000}>

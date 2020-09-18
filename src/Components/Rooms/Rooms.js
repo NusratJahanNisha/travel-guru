@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Header from '../Header/Header';
+import { UserContext } from '../../App';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,11 +65,13 @@ const useStyles = makeStyles((theme) => ({
         price: `$38/night`,
         total: `$180`
     }]
+    const [loggedInUser, setLoggedInUser] = useContext ( UserContext );
 
-
-    return (
+    return ( <div><Header></Header>
+    <h1 style={{textAlign:"center",color:"black"}}>Welcome, {loggedInUser.name} <h3 style={{color:'grey'}}>Thank you for choosing our hotel.</h3> <h4 style={{color:'grey'}}>Please select your room and book it.</h4> </h1>
         <div className="row">
-          <Header></Header>
+          
+          
 
             <div className="col-md-6">
 
@@ -185,7 +188,7 @@ const useStyles = makeStyles((theme) => ({
                 
             </div>
         </div>
-
+        </div>
       );
     }
    

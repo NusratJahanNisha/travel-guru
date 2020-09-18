@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
 export default function PlaceBook() {
     const classes = useStyles();
     const { placeName, placeDetails } = useParams();
-    // const history = useHistory()
-    // const handleBook = (placeName) => {
+    const history = useHistory()
+    const handleRoomVisit = () => {
 
-    //     history.push(`/book/${placeName}`);
-    // }
+        history.push('/rooms');
+    }
 
     return (
         <div className="background">
@@ -40,7 +40,7 @@ export default function PlaceBook() {
                 <div className="col-md-6">
                     <div style={{ background: 'white', height: '380px', width: '500px', padding: '50px', margin: '10px' }}>
                         <h6 style={{ color: 'grey', margin: '10px' }}>Origin</h6>
-                        <input type="text" className="text" placeholder='Dhaka' style={{ margin: '10px', width: '400px', height: '40px' }} />
+                        <input type="text" required className="text" placeholder='Dhaka' style={{ margin: '10px', width: '400px', height: '40px' }} />
                         <h6 style={{ color: 'grey', margin: '10px' }}>Destination</h6>
                         <input type="text" className="text" disabled placeholder={placeName} style={{ margin: '10px', width: '400px', height: '40px' }} /> <br />
 
@@ -72,10 +72,10 @@ export default function PlaceBook() {
                         </div> 
                         <br />
                         <Link to={`/book/${placeName}`}></Link>
-                        <Button  variant="warning" style={{ textAlign: 'center', width: '400px', height: '40px' }} >
+                        <Button  onClick={handleRoomVisit} variant="warning" style={{ textAlign: 'center', width: '400px', height: '40px' }} >
                             Start Booking
         </Button>
-        {/* onClick={() => handleBook(placeName)} */}
+       
                     </div>
 
                 </div>
