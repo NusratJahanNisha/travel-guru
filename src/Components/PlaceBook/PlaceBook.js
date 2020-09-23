@@ -1,11 +1,8 @@
-
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
-import Rooms from '../Rooms/Rooms';
 import Header from '../Header/Header';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,18 +22,23 @@ export default function PlaceBook() {
     const { placeName, placeDetails } = useParams();
     const history = useHistory()
     const handleRoomVisit = () => {
-
-        history.push('/rooms');
+        history.push(`/rooms/${placeName}`);
     }
 
     return (
         <div className="background">
             <Header></Header>
+
+            {/* Description of the selected place */}
+
             <div className="row">
                 <div className="col-md-6" style={{ color: 'White', textAlign: 'center', padding: '50px' }}>
                     <h1>{placeName}</h1>
                     <p>{placeDetails}</p>
                 </div>
+
+                {/* Place booking and date set up */}
+
                 <div className="col-md-6">
                     <div style={{ background: 'white', height: '380px', width: '500px', padding: '50px', margin: '10px' }}>
                         <h6 style={{ color: 'grey', margin: '10px' }}>Origin</h6>
@@ -55,6 +57,7 @@ export default function PlaceBook() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+
                                 />
                             </form>
                             <form className={classes.container} noValidate>
@@ -69,15 +72,12 @@ export default function PlaceBook() {
                                     }}
                                 />
                             </form>
-                        </div> 
+                        </div>
                         <br />
-                        <Link to={`/book/${placeName}`}></Link>
-                        <Button  onClick={handleRoomVisit} variant="warning" style={{ textAlign: 'center', width: '400px', height: '40px' }} >
+                        <Button onClick={handleRoomVisit} variant="warning" style={{ textAlign: 'center', width: '400px', height: '40px' }} >
                             Start Booking
-        </Button>
-       
+                        </Button>
                     </div>
-
                 </div>
             </div>
         </div>

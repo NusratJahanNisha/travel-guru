@@ -1,5 +1,6 @@
 .background{
   background-image:  url("https://i.ibb.co/CQR7B4N/Rectangle-1.png");
+  opacity:0.9;
   background-size: cover;
   background-blend-mode: luminosity;
   height: 100vh;

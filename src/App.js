@@ -5,7 +5,6 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
 import PlaceBook from './Components/PlaceBook/PlaceBook';
@@ -19,11 +18,8 @@ function App() {
 
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
-    <div className="container" >
-      
-      
-      <Router>
-      
+    <div className="container" >  
+      <Router>   
         <Switch>
           <Route path="/home">
             <Home/>
@@ -34,11 +30,9 @@ function App() {
           <Route path="/login">
             <Login></Login>
           </Route>
-
-          <PrivateRoute path="/rooms">
+          <PrivateRoute path="/rooms/:placeName">
             <Rooms></Rooms>
           </PrivateRoute>
-
           <Route exact path="/">
             <Home/>
           </Route>
@@ -46,11 +40,7 @@ function App() {
             <NotFound></NotFound>
           </Route>       
         </Switch>
-      </Router>
-      
-
-     
-     
+      </Router>    
     </div>
     </UserContext.Provider>
   );
