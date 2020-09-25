@@ -8,34 +8,40 @@ import Header from '../Header/Header';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     '& > *': {
-//       margin: theme.spacing(1),
-//       width: '25ch',
-//     },
-//   },
-// }));
 function Login() {
-  const [newUser, setNewUser] = useState(false)
+  const [newUser, setNewUser] = useState(false);
   const [user, setUser] = useState({
     isSignedIn: false,
     name: '',
     email: '',
     password: '',
-    // error: '',
-    // success: false
+    photo: ''
   })
+
+  // sign out
+
+  const handleSignOut = () => {
+    firebase.auth().signOut()
+    .then(res => {
+      const signedOutUser = {
+        isSignedIn: false,
+        name: '',
+        email: '',
+        photo: '',
+        error: '',
+        success: false
+      }
+      setUser(signedOutUser);
+    }).catch(err => {
+    });
+  }
+
+
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "/" } };
 
-
-
-
-
-  // const classes = useStyles();
   const signInLogo = [{
     fbLogo: "https://i.ibb.co/CmPcnZm/fb.png"
   },
@@ -49,7 +55,6 @@ function Login() {
   }
 
 
-
   // Google sign section
 
   const handleGoogleSignIn = () => {
@@ -57,11 +62,6 @@ function Login() {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(googleProvider).then(function (result) {
       const { displayName } = result.user;
-      // const signedInUser = {
-      //   isSignedIn: true ,
-      //   name: displayName,
-      //   email: email};
-      //   setLoggedInUser(signedInUser);
       const userInfo = {
         name: displayName,
         isSignedIn: true,
@@ -102,119 +102,119 @@ function Login() {
 
   // email and password login section
 
+
   const handleBlur = (e) => {
-    let isFieldValid;
-    if (e.target.name === 'email') {
+    let isFieldValid = true;
+    if (e.target.name === 'name') {
+      isFieldValid = e.target.value.length > 4;
+    }
+    if(e.target.name === 'email'){
       isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
     }
-    if (e.target.name === 'password') {
+    if(e.target.name === 'password'){
       const isPasswordValid = e.target.value.length > 6;
-      const passwordHasNumber = /\d{1}/.test(e.target.value);
+      const passwordHasNumber =  /\d{1}/.test(e.target.value);
       isFieldValid = isPasswordValid && passwordHasNumber;
     }
-    if (isFieldValid) {
-      const newUserInfo = { ...user };
+    if(isFieldValid){
+      const newUserInfo = {...user};
       newUserInfo[e.target.name] = e.target.value;
       setUser(newUserInfo);
     }
-
   }
+
+
   const handleSubmit = (e) => {
-    if (newUser && user.email && user.password) {
+    if(newUser && user.email && user.password){
       firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
-        .then(res => {
-          const newUserInfo = { ...user };
-          newUserInfo.error = "";
-          newUserInfo.success = true;
-          setUser(newUserInfo);
-          updateUserName(user.name);
-          setLoggedInUser(newUserInfo);
-          history.replace(from);
-        })
-        .catch(function (error) {
-          const newUserInfo = { ...user };
-          newUserInfo.error = error.message;
-          newUserInfo.success = false;
-          setUser(newUserInfo);
-        });
+      .then( res => {
+        const newUserInfo = {...user};
+        newUserInfo.error = '';
+        newUserInfo.success = true;
+        setUser(newUserInfo);
+        updateUserName(user.name);
+        const userInfo = {
+          name: newUserInfo.name,
+          isSignedIn: true,
+        }
+        setLoggedInUser(userInfo);
+        history.replace(from);
+      })
+      .catch( error => {
+        const newUserInfo = {...user};
+        newUserInfo.error = error.message;
+        newUserInfo.success = false;
+        setUser(newUserInfo);
+      });
     }
-    if (!newUser && user.email && user.password) {
+
+    if(!newUser && user.email && user.password){
       firebase.auth().signInWithEmailAndPassword(user.email, user.password)
-        .then(res => {
-          const newUserInfo = { ...user };
-          newUserInfo.error = "";
-          newUserInfo.success = true;
-          setUser(newUserInfo);
-          setLoggedInUser(newUserInfo);
-          history.replace(from);
-        })
-        .catch(function (error) {
-          // const errorMessage = error.message;
-          const newUserInfo = { ...user };
-          newUserInfo.error = error.message;
-          newUserInfo.success = false;
-          setUser(newUserInfo);
-          // const userInfo = {
-          //   name: ,
-          //   isSignedIn: true,
-          // }
-          // setLoggedInUser(newUserInfo);
-          // history.replace(from);
-        });
+      .then(res => {
+        const newUserInfo = {...user};
+        newUserInfo.error = '';
+        newUserInfo.success = true;
+        setUser(newUserInfo);
+        console.log('sign in user info', res.user);
+        const userInfo = {
+          name: newUserInfo.email,
+          isSignedIn: true,
+        }
+        setLoggedInUser(userInfo);
+        history.replace(from);
+      })
+      .catch(function(error) {
+        const newUserInfo = {...user};
+        newUserInfo.error = error.message;
+        newUserInfo.success = false;
+        setUser(newUserInfo);
+      });
     }
+
     e.preventDefault();
   }
-  const updateUserName = name => {
+  // update user name
+
+  const updateUserName = name =>{
     const user = firebase.auth().currentUser;
+
     user.updateProfile({
       displayName: name
-    }).then(function () { })
-      .catch(function (error) { })
+    }).then(function() {
+      console.log('user name updated successfully')
+    }).catch(function(error) {
+      console.log(error)
+    });
   }
 
 
   return (
     <div>
       <Header></Header>
-      <p>email: {user.email}</p>
-      <p>password: {user.password}</p>
-      <p>Name : {user.name}</p>
-      <p style={{ color: 'red' }}>{user.error}</p>
-      {user.success && <p style={{ color: 'green' }}>User created successfully</p>}
-      {/* {user.isSignedIn && <div> <p> Welcome, {user.name}
-            </p><p> Your Email: {user.email}</p>
-            </div>} */}
 
-      <div style={{ height: '375px', width: '500px', border: '1px solid grey', padding: '20px', marginLeft: '300px' }}>
+      {/* email password sign in */}
+      
+      <div style={{ height: '400px', width: '500px', border: '1px solid grey', padding: '20px', marginLeft: '300px' }}>
         <h3><b>Create an account</b></h3>
-        <form onClick={handleSubmit}>
-          <input onBlur={handleBlur} style={{ width: '450px', height: '40px' }} placeHolder="First Name" type="text" required name="name" className="" /> <br /><br />
-          <input onBlur={handleBlur} style={{ width: '450px', height: '40px' }} placeHolder="Email address" type="text" required name="email" className="" /><br /><br />
-          <input onBlur={handleBlur} style={{ width: '450px', height: '40px' }} placeHolder="Password" type="text" required name="password" className="" /><br /><br />
-          <input type="submit" style={{ backgroundColor: 'yellow', textAlign: 'center', width: '450px', height: '40px' }} value="Create an account" /><br /><br />
+        <input type="checkbox" style={{margin:'10px' }} onChange={() => setNewUser(!newUser)} name="newUser" id=""/>
+      <label htmlFor="newUser">New User Sign up</label>
 
-          <b><h6 style={{ textAlign: 'center' }} >Already have an account? <small style={{ color: 'yellow', display: 'float', cursor: 'pointer' }}> Login</small> </h6> </b>
+      <form onSubmit={handleSubmit}>
+        {newUser && <input name="name"  type="text" style={{ width: '450px', height: '40px',margin:'10px' }} onBlur={handleBlur} placeholder="Your name"/>}
+        <br/>
+        <input type="text" name="email" style={{ width: '450px', height: '40px',margin:'10px' }} onBlur={handleBlur} placeholder="Your Email address" required/>
+        <br/>
+        <input type="password" style={{ width: '450px', height: '40px',margin:'10px' }} name="password" onBlur={handleBlur} placeholder="Your Password" required/>
+        <br/>
+        <input style={{ width: '450px', height: '40px',margin:'10px' }} type="submit" value={newUser ? 'Sign up' : 'Sign in'}/>
+      </form>
+      <p style={{color: 'red', margin:'10px'}}>{user.error}</p>
+      { user.success && <p style={{color: 'green', width: '450px', height: '40px',margin:'10px'}}>User { newUser ? 'created' : 'Logged In'} successfully</p>}
 
-        </form>
-
-
+      <br/>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <h1 style={{ textAlign: 'center' }}> <b> Or </b></h1>
+      <h1 style={{ textAlign: 'center' }}> <b> ---------Or-------- </b></h1>
 
       {/* Fb sign in button */}
 
@@ -227,3 +227,5 @@ function Login() {
     </div>
   );
 };
+
+export default Login;

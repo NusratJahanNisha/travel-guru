@@ -15,7 +15,7 @@ export class Sundarbans extends React.Component {
                 google={this.props.google}
                 zoom={15}
                 style={mapStyles}
-
+                
                 initialCenter={{
                     lat: 21.9497, lng: 89.1833
                 }}

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Header from '../Header/Header';
 import { UserContext } from '../../App';
 import Sajek from '../Map/Sajek';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Sundarbans } from '../Map/Sundarbans';
 import { Sreemongol } from '../Map/Sreemongol';
 import rooms from '../FakeData/rooms';
@@ -11,6 +11,10 @@ import RoomDetails from '../RoomDetails/RoomDetails';
 const Rooms = () => {
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   const { placeName } = useParams();
+  const location = useLocation();
+  console.log(location);
+
+  
 
   return (
     <div>
@@ -28,26 +32,21 @@ const Rooms = () => {
             {rooms.map(room => <RoomDetails room={room}></RoomDetails>)}
           </div>
 
-
-          <div className="col-md-6">
-            {/* Map for last page */}
+          {/* Map for last page */}
+          <div className="col-md-6">          
             <h2 style={{ textAlign: 'center' }}>{placeName} map is below</h2>
-
-
-
-
-
-            {/* {   if(placeName === "SAJEK"){<Sajek ></Sajek>}
-                      else{<Sreemongol></Sreemongol>}
-               if (placeName === "SREEMANGAL"){<Sreemongol></Sreemongol>}
-               if (placeName === "SUNDARBANS"){<Sundarbans ></Sundarbans>}}
-              <If condition={placeName === "SAJEK"}><Sajek ></Sajek></If>
-              <If condition={placeName === "SAJEK"}><Sajek ></Sajek></If>
-              <If condition={placeName === "SAJEK"}><Sajek ></Sajek></If> */}
-
-
-
-
+            {
+               location.pathname === '/rooms/SUNDARBANS' && 
+               (<Sundarbans ></Sundarbans>) 
+            }
+            {
+               location.pathname === '/rooms/SAJEK' && 
+               (<Sajek ></Sajek>) 
+            }
+            {
+               location.pathname === '/rooms/SREEMANGAL' && 
+               (<Sreemongol></Sreemongol>) 
+            }
 
           </div>
         </div>
