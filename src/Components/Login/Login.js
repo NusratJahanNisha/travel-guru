@@ -208,6 +208,7 @@ function Login() {
         <br/>
         <input style={{ width: '450px', height: '40px',margin:'10px' }} type="submit" value={newUser ? 'Sign up' : 'Sign in'}/>
       </form>
+      
       <p style={{color: 'red', margin:'10px'}}>{user.error}</p>
       { user.success && <p style={{color: 'green', width: '450px', height: '40px',margin:'10px'}}>User { newUser ? 'created' : 'Logged In'} successfully</p>}
 

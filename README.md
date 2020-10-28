@@ -1,3 +1,22 @@
+# Travel Guru
+## [Live Website](https://travel-guru-8664d.web.app/)
+## Features
+- This is a Hotel Booking Application.
+- Created a travel website where users can book his/her suitable place.React router is used in this purpose.
+- After the authentication system, the user can see the rooms available in that  place.Firebase authentication system is used to take user's information.
+- Besides the google map increased the user experience.   
+- This site is capable of securing both user's and hotel's information.
+## Technology
+  - React
+  - React Router
+  - Firebase Authentication
+  - Netlify
+  - Material UI
+  - Bootstrap
+  - CSS3
+  - HTML5
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -66,4 +85,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# travel-guru
+
